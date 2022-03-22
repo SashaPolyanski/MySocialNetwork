@@ -1,0 +1,22 @@
+.nav {
+    grid-area: n;
+    background-color: #02a7b7;
+}
+.item {
+    margin-left: 20px;
+    margin-top: 5px;
+}
+.item:last-child {
+    margin-top: 50px;
+}
+.itemLink {
+    font-size: 25px;
+    color: antiquewhite;
+    text-decoration: none;
+    padding: 10px;
+}
+.itemLink:hover {
+    cursor: pointer;
+    color: darkolivegreen;
+    transition: 0.5s ease;
+}

@@ -1,0 +1,17 @@
+.header {
+    grid-area: h;
+    background-color: #02a7b7;
+}
+.header img {
+    width: 60px;
+}
+.name {
+    font-size: 30px;
+    color: antiquewhite;
+    margin-left: 350px;
+}
+.name:hover {
+    cursor: pointer;
+    color: darkolivegreen;
+    transition: 0.5s ease;
+}
