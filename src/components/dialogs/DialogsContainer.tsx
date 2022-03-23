@@ -1,61 +1,58 @@
-import React, {ChangeEvent} from "react";
-import s from './Dialogs.module.css'
-import {NavLink} from "react-router-dom";
-import {ActionsType, DialogsType, MessageType, StoreType,} from "../../redux/store";
-import {SendMessageAc, UpdateNewMessageBodyAc} from "../../redux/dialogsReducer";
+import React from "react";
+import {InitialStateType, SendMessageAc, UpdateNewMessageBodyAc} from "../../redux/dialogsReducer";
+import Dialogs from "./Dialogs";
+import {connect} from "react-redux";
+import {RootReduxStoreType} from "../../redux/storeReducer";
+import {Dispatch} from "redux";
 
 
-function DialogItem(props: DialogsType) {
+// function DialogsContainer(props: DialogsPropsType) {
+//     const state = props.store.getState().dialogsPage
+//
+//     const onChangeHandler = (body: string) => {
+//         props.store.dispatch(UpdateNewMessageBodyAc(body))
+//     }
+//     const addMessageBody = () => {
+//         props.store.dispatch(SendMessageAc())
+//     }
+//
+//
+//     return (
+//         <Dialogs updateNewMessageBody={onChangeHandler} sendMessage={addMessageBody} dialogsPage={state}/>
+//     )
+// }
 
-    let path = '/Dialogs/' + props.id
-
-    return (
-        <div className={s.dialogItem}>
-            <NavLink className={s.dialogLink} to={path}>{props.name}</NavLink>
-        </div>
-    )
+type MapStatePropsType = {
+    dialogsPage: InitialStateType
 }
-
-function Message(props: MessageType) {
-    return (
-        <div>
-            <div className={s.messageItem}>{props.message}</div>
-        </div>
-    )
+type MapDispatchPropsType = {
+    onChangeHandler:(body: string)=>void
+    addMessageBody:()=>void
 }
-
-type DialogsPropsType = {
-    store: StoreType
-    dispatch: (action: ActionsType) => void
-}
-
-
-function Dialogs(props: DialogsPropsType) {
-    const state = props.store.getState().dialogsPage;
-
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(UpdateNewMessageBodyAc(e.currentTarget.value))
+export type DialogsPropsType = MapStatePropsType & MapDispatchPropsType
+//В скобках тот тип, который принимает, за скобками тот тип, который возвращает(Так типизируется весь mapStateToProps)
+//Что бы типизировать наш стейт, нужно типизировать нашу пачку редьюсеров
+//А что бы типизировать данные на выходе , нужно забрать тип у инициализационного стейта в редьюсере
+let mapStateToProps = (state: RootReduxStoreType):MapStatePropsType => {
+    return{
+        dialogsPage: state.dialogsPage,
     }
-    const addMessageBody = () => {
-        props.dispatch(SendMessageAc())
-    }
-
-
-    return (
-        <div>
-            <div className={s.dialogs}>
-                <div className={s.dialog}>
-                    {state.dialogs.map((dialog: any) => <DialogItem id={dialog.id} name={dialog.name}/>)}
-                </div>
-                <div className={s.messages}>
-                    {state.messages.map((message: any) => <Message message={message.message}/>)}
-                    <textarea value={state.newMessageBody} onChange={onChangeHandler}/>
-                    <button onClick={addMessageBody}>send</button>
-                </div>
-
-            </div>
-        </div>
-    )
 }
 
-export default Dialogs
+let mapDispatchToProps = (dispatch: Dispatch):MapDispatchPropsType => {
+    return {
+        onChangeHandler: (body: string) => {
+            dispatch(UpdateNewMessageBodyAc(body))
+        },
+        addMessageBody: () => {
+            dispatch(SendMessageAc())
+        }
+    }
+}
+
+const DialogsContainer = connect(mapStateToProps,mapDispatchToProps)(Dialogs);
+
+export default DialogsContainer
+
+
+
