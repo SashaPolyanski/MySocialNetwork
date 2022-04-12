@@ -1,8 +1,8 @@
 import {dialogsReducer, SendMessageType, UpdateNewMessageBodyType} from "./dialogsReducer";
-import {AddPostAcType, profileReducer, UpdateNewPostTextType} from "./profileReducer";
+import {AddPostAcType, profileReducer, SetUsersProfileType, UpdateNewPostTextType} from "./profileReducer";
 
 
-export type ActionsType = AddPostAcType | UpdateNewPostTextType | UpdateNewMessageBodyType | SendMessageType
+export type ActionsType = AddPostAcType | UpdateNewPostTextType | UpdateNewMessageBodyType | SendMessageType | SetUsersProfileType
 
 export type MessageType = {
     id?: number
@@ -38,45 +38,42 @@ export type StoreType = {
     dispatch: (action: ActionsType) => void
 }
 
-let store: StoreType = {
-    _state: {
-        profilePage: {
-            posts: [
-                {id: 1, message: 'Hi, how are you?', likesCount: 12},
-                {id: 1, message: 'Hi, how are you?', likesCount: 15}
-            ],
-            newPostText: ''
-        },
-        dialogsPage: {
-            dialogs: [
-                {id: 1, name: 'Sasha'},
-                {id: 2, name: 'Veronika'},
-                {id: 3, name: 'Lera'},
-                {id: 4, name: 'Denis'},
-                {id: 5, name: 'Nikita'},
-            ],
-            messages: [
-                {id: 1, message: 'Hello im Sasha'},
-                {id: 2, message: 'Hello im Veronika'},
-                {id: 3, message: 'Hello im Lera'},
-                {id: 4, message: 'Hello im Denis'},
-            ],
-            newMessageBody: ''
-        }
-    },
-    getState() {
-        return this._state
-    },
-    _callSubscriber() {
-        console.log('State changed')
-    },
-    subscribe(observer) {
-        this._callSubscriber = observer
-    },
-    dispatch(action) {
-        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
-        this._state.profilePage = profileReducer(this._state.profilePage, action)
-        this._callSubscriber()
-    }
-}
+
+// let store: StoreType = {
+//     _state: {
+//         profilePage: {
+//             posts: [
+//                 {id: 1, message: 'Hi, how are you?', likesCount: 12},
+//                 {id: 1, message: 'Hi, how are you?', likesCount: 15}
+//             ],
+//             newPostText: ''
+//         },
+//         dialogsPage: {
+//             dialogs: [
+//                 {id: 1, name: 'Sasha'},
+//                 {id: 2, name: 'Veronika'},
+//                 {id: 3, name: 'Lera'},
+//                 {id: 4, name: 'Denis'},
+//                 {id: 5, name: 'Nikita'},
+//             ],
+//             messages: [
+//                 {id: 1, message: 'Hello im Sasha'},
+//                 {id: 2, message: 'Hello im Veronika'},
+//                 {id: 3, message: 'Hello im Lera'},
+//                 {id: 4, message: 'Hello im Denis'},
+//             ],
+//             newMessageBody: ''
+//         }
+//     },
+//     getState() {
+//         return this._state
+//     },
+//     _callSubscriber() {
+//         console.log('State changed')
+//     },
+//     subscribe(observer) {
+//         this._callSubscriber = observer
+//     },
+//
+// }
 

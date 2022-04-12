@@ -19,5 +19,7 @@
     animation: bounce 1s;
 }
 
-
+.loginContainer {
+    float: right;
+}
 

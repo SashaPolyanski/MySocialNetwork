@@ -1,4 +1,5 @@
-import {ActionsType} from "./store";
+import {ActionsType} from "./profileReducer";
+
 
 export type SendMessageType = {
     type: 'SEND-MESSAGE'

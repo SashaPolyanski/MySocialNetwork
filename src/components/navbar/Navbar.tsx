@@ -7,19 +7,19 @@ function Navbar() {
     return (
         <nav className={s.nav}>
             <div className={s.item}><NavLink className={s.itemLink} activeClassName={s.itemLinkActive}
-                                             to={'/Profile'}>Profile</NavLink></div>
+                                             to={'/profile'}>Profile</NavLink></div>
             <div className={s.item}><NavLink className={s.itemLink} activeClassName={s.itemLinkActive}
-                                             to={'/Dialogs'}>Messages</NavLink></div>
+                                             to={'/dialogs'}>Messages</NavLink></div>
             <div className={s.item}><NavLink className={s.itemLink} activeClassName={s.itemLinkActive}
-                                             to={'/News'}>News</NavLink></div>
+                                             to={'/news'}>News</NavLink></div>
             <div className={s.item}><NavLink className={s.itemLink} activeClassName={s.itemLinkActive}
-                                             to={'/Music'}>Music</NavLink></div>
+                                             to={'/music'}>Music</NavLink></div>
             <div className={s.item}><NavLink className={s.itemLink} activeClassName={s.itemLinkActive}
-                                             to={'/Settings'}>Settings</NavLink></div>
+                                             to={'/settings'}>Settings</NavLink></div>
             <div className={s.item}><NavLink className={s.itemLink} activeClassName={s.itemLinkActive}
-                                             to={'/Users'}>Users</NavLink></div>
+                                             to={'/usersAPI'}>Users</NavLink></div>
             <div className={s.item}><NavLink className={s.itemLink} activeClassName={s.itemLinkActive}
-                                             to={'/Friends'}>Friends</NavLink></div>
+                                             to={'/friends'}>Friends</NavLink></div>
         </nav>
 
 

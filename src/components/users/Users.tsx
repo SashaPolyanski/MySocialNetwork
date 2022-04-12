@@ -1,57 +1,78 @@
 import React from 'react';
-import {UsersPropsType} from "./UsersContainer";
-import s from './Users.module.css'
+import s from "./Users.module.css";
+import defaultUsers from "../../assets/img/defaultUsers.gif";
+import {followSuccessThunkCreator, UsersType} from "../../redux/usersReducer";
+import {NavLink} from 'react-router-dom';
+import axios from "axios";
 
 
-const Users = (props: UsersPropsType) => {
-    //Добавляем if что бы убрать зацикливание, т.к. перед отрисовкой users все время вызывается функция setUsers и засовывает в стрейт наших юзеров
-    if(props.usersPage.users.length === 0) {
+type PropsType = {
+    totalUsersCount: number
+    pageSize: number
+    onPageChanged: (p: number) => void
+    currentPage: number
+    users: Array<UsersType>
+    followingInProgress: Array<number>
+    followSuccessThunkCreator: (userID: number) => void
+    unfollowSuccessThunkCreator: (userID: number) => void
 
-        props.setUsers([
-            {
-                id: 1,
-                photoUrl:'https://i.gifer.com/2Qv9.gif',
-                followed: true,
-                fullName: 'Sasha P',
-                location: {city: 'Minsk', country: 'Belarus'},
-                status: 'I am dump'
-            },
-            {
-                id: 2,
-                photoUrl:'https://i.gifer.com/2Qv9.gif',
-                followed: false,
-                fullName: 'Veronika P',
-                location: {city: 'Minsk', country: 'Belarus'},
-                status: 'I dont dump'
-            },
-            {
-                id: 3,
-                photoUrl:'https://i.gifer.com/2Qv9.gif',
-                followed: false,
-                fullName: 'Nikita P',
-                location: {city: 'Molodechno', country: 'Belarus'},
-                status: 'I am dump'
-            },
-        ])
-    }
+
+}
+
+const Users = (props: PropsType) => {
+
+
+    let totalPage = Math.ceil(props.totalUsersCount / props.pageSize)
+
+
+    let pages = []
+    for (let i = 1; i <= totalPage; i++) (
+        pages.push(i)
+    )
+
     return (
         <div>
-            {props.usersPage.users.map(m => <div key={m.id}>
+            <div>
+                {pages.map(p => <span onClick={() => props.onPageChanged(p)}
+                                      className={props.currentPage === p ? s.page : ''}>{p} </span>)}
+
+                {props.users.map(m => <div key={m.id}>
                 <span>
-                    <div ><img src={m.photoUrl} className={s.avatarPhoto} alt=""/></div>
-                    <div>{m.followed ? <button onClick={()=>props.unFollow(m.id)}>unFollow</button> : <button onClick={()=>{props.follow(m.id)}}>Follow</button>}</div>
+                    <div>
+                        <NavLink to={'/profile/' + m.id}>   <img
+                            src={m.photos.small != null ? m.photos.small : defaultUsers}
+                            className={s.avatarPhoto}
+                            alt=""/></NavLink>
+                     </div>
+                    <div>{m.followed ?
+                        <button
+
+                            disabled={props.followingInProgress.some(id => id === m.id)}
+
+                            onClick={() => {
+                                props.unfollowSuccessThunkCreator(m.id)
+                            }}>unFollow</button> :
+                        <button
+
+                            disabled={props.followingInProgress.some(id => id === m.id)}
+
+                            onClick={() => {
+                                props.followSuccessThunkCreator(m.id)
+
+                            }}>Follow</button>}</div>
                 </span>
-                <span>
                     <span>
-                        <div>{m.fullName}</div>
+                    <span>
+                        <div>{m.name}</div>
                         <div>{m.status}</div>
                     </span>
                     <span>
-                        <div>{m.location.city}</div>
-                        <div>{m.location.country}</div>
+                        <div>"m.location.city"</div>
+                        <div>"m.location.country"</div>
                     </span>
                 </span>
-            </div>)}
+                </div>)}
+            </div>
         </div>
     );
 };
