@@ -1,18 +1,18 @@
-import {SendMessageType, UpdateNewMessageBodyType} from "./dialogsReducer";
-import axios from "axios";
+import {SendMessageType} from "./dialogsReducer";
 import {Dispatch} from "redux";
-import {usersAPI} from "../api/api";
-import {SetAuthUserData} from "./authReducer";
+import {profileAPI, usersAPI} from "../api/api";
 
 export type ActionsType =
     AddPostAcType
     | UpdateNewPostTextType
-    | UpdateNewMessageBodyType
+
     | SendMessageType
     | SetUsersProfileType
+    | setStatusType
 
 export type AddPostAcType = {
     type: 'ADD-POST'
+    newPostText: any
 }
 export type UpdateNewPostTextType = {
     type: 'UPDATE-NEW-POST-TEXT'
@@ -21,6 +21,10 @@ export type UpdateNewPostTextType = {
 export type SetUsersProfileType = {
     type: 'SET-USERS-PROFILE'
     profile: string
+}
+export type setStatusType = {
+    type: 'SET-STATUS'
+    status: string
 }
 
 export type PostsType = {
@@ -32,6 +36,7 @@ export type initialStatePropsType = {
     posts: Array<PostsType>
     newPostText: string
     profile: any
+    status: string
 }
 
 let initialState: initialStatePropsType = {
@@ -40,48 +45,48 @@ let initialState: initialStatePropsType = {
         {id: 1, message: 'Hi, how are you?', likesCount: 15}
     ],
     newPostText: '',
-    profile: null
+    profile: null,
+    status: '',
 }
 
 export const profileReducer = (state = initialState, action: ActionsType): initialStatePropsType => {
     switch (action.type) {
         case 'ADD-POST' : {
-            let newPost = {id: 3, message: state.newPostText, likesCount: 0}
+                let newPost = {id: 3, message: action.newPostText, likesCount: 0}
             return {
                 ...state,
                 posts: [newPost, ...state.posts],
                 newPostText: ''
             }
         }
-        case 'UPDATE-NEW-POST-TEXT' : {
-            state.newPostText = action.newText
-            return {
-                ...state,
-            }
-
-        }
         case "SET-USERS-PROFILE" : {
             return {...state, profile: action.profile}
         }
+        case 'SET-STATUS' : {
+            return {...state, status: action.status}
+        }
+
         default :
             return state
     }
 }
-export const AddPostAc = (): AddPostAcType => {
+export const AddPostAc = (newPostText: any): AddPostAcType => {
     return {
-        type: 'ADD-POST'
+        type: 'ADD-POST',
+        newPostText
     } as const
 }
-export const UpdateNewPostTextAc = (newText: string): UpdateNewPostTextType => {
-    return {
-        type: 'UPDATE-NEW-POST-TEXT',
-        newText
-    } as const
-}
+
 export const SetUsersProfileAc = (profile: string): SetUsersProfileType => {
     return {
         type: "SET-USERS-PROFILE",
         profile
+    } as const
+}
+export const SetStatus = (status: string): setStatusType => {
+    return {
+        type: "SET-STATUS",
+        status
     } as const
 }
 
@@ -90,6 +95,24 @@ export const getUserThunkCreator = (userId: number) => (dispatch: Dispatch<Actio
     usersAPI.getProfile(userId)
         .then(response => {
             dispatch(SetUsersProfileAc(response.data))
+            console.log(response)
+        })
+
+}
+export const getUserStatus = (userId: number) => (dispatch: Dispatch<ActionsType>) => {
+
+    profileAPI.getStatus(userId)
+        .then(response => {
+            dispatch(SetStatus(response.data))
+        })
+
+}
+export const updateUserStatus = (status: string) => (dispatch: Dispatch<ActionsType>) => {
+    profileAPI.updateStatus(status)
+        .then(response => {
+            if(response.data.resultCode === 0) {
+                dispatch(SetStatus(status))
+            }
         })
 
 }

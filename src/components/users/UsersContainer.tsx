@@ -10,7 +10,8 @@ import {
 } from "../../redux/usersReducer";
 import React from "react";
 import Users from "./Users";
-import Preloader from "../preloader/Preloader";
+import Preloader from "../../common/preloader/Preloader";
+import {compose} from "redux";
 
 
 type mapStatePropsType = {
@@ -100,7 +101,19 @@ const mapStateToProps = (state: RootReduxStoreType): mapStatePropsType => {
 // }
 
 
-let UsersContainer = connect(mapStateToProps, {
+// let UsersContainer = connect(mapStateToProps, {
+//     //Вместо apDispatchToProps мы можем передать простой объект и connect примит это, как callback и сам все задиспачит
+//     //Так же можем наши AC назвать так же(follow:follow) и записать все одним словом follow, unFollow,setUsers и пр.
+//     follow: FollowAC,
+//     unFollow: UnFollowAC,
+//     setCurrentPage: SetCurrentPageAC,
+//     ToggleIsFollowingProgress: ToggleIsFollowingProgress,
+//     getUsersThunkCreator: getUsersThunkCreator,
+//     followSuccessThunkCreator: followSuccessThunkCreator,
+//     unfollowSuccessThunkCreator: unfollowSuccessThunkCreator,
+// })(UsersAPI)
+
+export default compose<React.ComponentType>(connect(mapStateToProps, {
     //Вместо apDispatchToProps мы можем передать простой объект и connect примит это, как callback и сам все задиспачит
     //Так же можем наши AC назвать так же(follow:follow) и записать все одним словом follow, unFollow,setUsers и пр.
     follow: FollowAC,
@@ -110,6 +123,4 @@ let UsersContainer = connect(mapStateToProps, {
     getUsersThunkCreator: getUsersThunkCreator,
     followSuccessThunkCreator: followSuccessThunkCreator,
     unfollowSuccessThunkCreator: unfollowSuccessThunkCreator,
-})(UsersAPI)
-
-export default UsersContainer
+}))(UsersAPI)

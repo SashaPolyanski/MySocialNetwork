@@ -1,8 +1,6 @@
 import {usersAPI} from "../api/api";
 import {RootReduxStoreType} from "./storeReducer";
 import {Dispatch} from "redux";
-import axios from "axios";
-import users from "../components/users/Users";
 
 export type UsersType = {
     id: number
@@ -25,6 +23,7 @@ export type InitialStateType = {
     currentPage: number
     isFetching: boolean
     followingInProgress: Array<number>
+    status: string
 }
 type followAcType = {
     type: 'FOLLOW'
@@ -52,6 +51,7 @@ type isFetchingType = {
 }
 
 
+
 type ActionsType =
     followAcType
     | unFollowAcType
@@ -69,6 +69,7 @@ let initialState: InitialStateType = {
     currentPage: 1,
     isFetching: true,
     followingInProgress: [],
+    status: ''
 }
 
 export const usersReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
@@ -203,6 +204,7 @@ export const followSuccessThunkCreator = (userID: number) => {
             })
     }
 }
+
 export const unfollowSuccessThunkCreator = (userID: number) => {
     return (dispatch: Dispatch<ActionsType>) => {
         dispatch(ToggleIsFollowingProgress(true, userID))

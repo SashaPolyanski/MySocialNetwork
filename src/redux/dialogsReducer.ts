@@ -3,12 +3,9 @@ import {ActionsType} from "./profileReducer";
 
 export type SendMessageType = {
     type: 'SEND-MESSAGE'
+    newMessageBody: any
 }
 
-export type UpdateNewMessageBodyType = {
-    type: 'UPDATE-NEW-MESSAGE-BODY'
-    body: string
-}
 type MessageType = {
     id?: number
     message: string
@@ -45,20 +42,14 @@ let initialState: InitialStateType  = {
 
 export const dialogsReducer = (state:InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case 'UPDATE-NEW-MESSAGE-BODY' : {
-            //state.newMessageBody = action.body
-            return {
-                ...state,
-                newMessageBody: action.body
-            }
-        }
+
         case 'SEND-MESSAGE' : {
-            let newMessage = {id: 6, message: state.newMessageBody}
-            state.newMessageBody = ''
+            let newMessage = {id: 6, message: action.newMessageBody}
+
             return {
                 ...state,
                 messages:[...state.messages, newMessage],
-                newMessageBody: ' '
+
             }
         }
         default:
@@ -66,14 +57,10 @@ export const dialogsReducer = (state:InitialStateType = initialState, action: Ac
 
     }
 }
-export const UpdateNewMessageBodyAc = (body: string): UpdateNewMessageBodyType => {
+
+export const SendMessageAc = (newMessageBody: any): SendMessageType => {
     return {
-        type: 'UPDATE-NEW-MESSAGE-BODY',
-        body
-    }
-}
-export const SendMessageAc = (): SendMessageType => {
-    return {
-        type: 'SEND-MESSAGE'
+        type: 'SEND-MESSAGE',
+        newMessageBody
     }
 }

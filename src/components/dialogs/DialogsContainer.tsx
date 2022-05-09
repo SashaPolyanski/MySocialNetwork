@@ -1,9 +1,10 @@
 import React from "react";
-import {InitialStateType, SendMessageAc, UpdateNewMessageBodyAc} from "../../redux/dialogsReducer";
+import {InitialStateType, SendMessageAc} from "../../redux/dialogsReducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {RootReduxStoreType} from "../../redux/storeReducer";
-import {Dispatch} from "redux";
+import {compose, Dispatch} from "redux";
+import {withAuthRedirect} from "../../HOC/AuthRedirect";
 
 
 // function DialogsContainer(props: DialogsPropsType) {
@@ -24,10 +25,10 @@ import {Dispatch} from "redux";
 
 type MapStatePropsType = {
     dialogsPage: InitialStateType
+
 }
 type MapDispatchPropsType = {
-    onChangeHandler:(body: string)=>void
-    addMessageBody:()=>void
+    addMessageBody:(newMessageBody: any)=>void
 }
 export type DialogsPropsType = MapStatePropsType & MapDispatchPropsType
 //В скобках тот тип, который принимает, за скобками тот тип, который возвращает(Так типизируется весь mapStateToProps)
@@ -36,23 +37,24 @@ export type DialogsPropsType = MapStatePropsType & MapDispatchPropsType
 let mapStateToProps = (state: RootReduxStoreType):MapStatePropsType => {
     return{
         dialogsPage: state.dialogsPage,
+
     }
 }
-
 let mapDispatchToProps = (dispatch: Dispatch):MapDispatchPropsType => {
     return {
-        onChangeHandler: (body: string) => {
-            dispatch(UpdateNewMessageBodyAc(body))
-        },
-        addMessageBody: () => {
-            dispatch(SendMessageAc())
+
+        addMessageBody: (newMessageBody: any) => {
+            dispatch(SendMessageAc(newMessageBody))
         }
     }
 }
 
-const DialogsContainer = connect(mapStateToProps,mapDispatchToProps)(Dialogs);
 
-export default DialogsContainer
+
+export default compose<React.ComponentType>(
+    connect(mapStateToProps,mapDispatchToProps),
+    withAuthRedirect
+)(Dialogs)
 
 
 

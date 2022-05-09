@@ -1,3 +1,15 @@
 .profileImage {
     width: 700px;
 }
+.fullName{
+    font-size: 45px;
+
+    color: antiquewhite;
+}
+.description {
+    font-size: 35px;
+    color: antiquewhite;
+}
+.container {
+    margin-left: 80px;
+}

@@ -1,8 +1,8 @@
-import {dialogsReducer, SendMessageType, UpdateNewMessageBodyType} from "./dialogsReducer";
-import {AddPostAcType, profileReducer, SetUsersProfileType, UpdateNewPostTextType} from "./profileReducer";
+import {SendMessageType} from "./dialogsReducer";
+import {AddPostAcType, SetUsersProfileType, UpdateNewPostTextType} from "./profileReducer";
 
 
-export type ActionsType = AddPostAcType | UpdateNewPostTextType | UpdateNewMessageBodyType | SendMessageType | SetUsersProfileType
+export type ActionsType = AddPostAcType | UpdateNewPostTextType  | SendMessageType | SetUsersProfileType
 
 export type MessageType = {
     id?: number
