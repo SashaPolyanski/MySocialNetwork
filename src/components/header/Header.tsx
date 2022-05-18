@@ -1,11 +1,12 @@
 import s from "./Header.module.css";
 import React from "react";
-import {NavLink} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
 type PropsType = {
-    isAuth: boolean
+    isAuth: boolean | null
     login: string | null
     email: string | null
+    logOut: ()=>void
 }
 
 function Header(props: PropsType) {
@@ -18,11 +19,13 @@ function Header(props: PropsType) {
 
             <div className={s.loginContainer}>
                 {props.isAuth ?
+
                     <div>
                         <div>{props.login}</div>
                         <div>{props.email}</div>
+                        <button onClick={()=>{props.logOut()}}>logout</button>
                     </div> :
-                    <NavLink to={'/login'}>Login</NavLink>}
+                    <Redirect to={'login'}/>}
             </div>
 
         </header>

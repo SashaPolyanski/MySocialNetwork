@@ -13,7 +13,7 @@ type ProfileType = {
         fullName: string
     }
     status: string
-    isAuth: boolean
+    isAuth: boolean | null
     updateStatus: (status: string)=>void
 }
 

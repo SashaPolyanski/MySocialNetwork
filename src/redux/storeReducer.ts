@@ -4,14 +4,12 @@ import {dialogsReducer} from "./dialogsReducer";
 import {usersReducer} from "./usersReducer";
 import {authReducer} from "./authReducer";
 import thunkMiddleware from 'redux-thunk'
-import { reducer as formReducer } from 'redux-form'
 
 let rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
     usersPage: usersReducer,
     auth: authReducer,
-    form:formReducer
 })
 
 //Делаем прослойку applyMiddleware(thunkMiddleware), что бы диспатч мог принимать функцию, thunk, yarn add redux-thunk

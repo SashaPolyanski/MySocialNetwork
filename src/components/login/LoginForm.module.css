@@ -1,0 +1,10 @@
+.error {
+    color: red;
+    position: absolute;
+}
+.inpContainer {
+    margin-top: 25px;
+}
+.btn {
+    margin-top: 20px;
+}

@@ -21,7 +21,7 @@ class ProfileContainer extends React.Component<RouterPathType> {
         //Узнать на саппорте как работает эти методы
         let userId = this.props.match.params.userID
         if(!userId) {
-            userId = '22360'
+            userId = String(this.props.authId)
         }
         this.props.getUserThunkCreator(+userId)
         this.props.getUserStatus(+userId)
@@ -51,8 +51,9 @@ type mapStatePropsType = {
     }
     status: string
 
+    authId: number | null
+    isAuth: boolean | null
 
-    isAuth: boolean
 }
 type mapDispatchPropsType = {
     getUserThunkCreator: (userId: number) => void
@@ -67,6 +68,7 @@ const mapStateToProps = (state: RootReduxStoreType): mapStatePropsType => {
         profile: state.profilePage.profile,
         status: state.profilePage.status,
         isAuth: state.auth.isAuth,
+        authId: state.auth.id,
     }
 }
 export default compose<React.ComponentType>(

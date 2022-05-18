@@ -1,9 +1,9 @@
 import React from 'react';
 import s from "./Users.module.css";
 import defaultUsers from "../../assets/img/defaultUsers.gif";
-import {followSuccessThunkCreator, UsersType} from "../../redux/usersReducer";
+import {UsersType} from "../../redux/usersReducer";
 import {NavLink} from 'react-router-dom';
-import axios from "axios";
+import {Button, Pagination} from "@mui/material";
 
 
 type PropsType = {
@@ -30,46 +30,51 @@ const Users = (props: PropsType) => {
         pages.push(i)
     )
 
+    const pageChangeHandler = (page: number) => {
+        props.onPageChanged(page)
+    }
+
     return (
         <div>
             <div>
-                {pages.map(p => <span onClick={() => props.onPageChanged(p)}
-                                      className={props.currentPage === p ? s.page : ''}>{p} </span>)}
-
-                {props.users.map(m => <div key={m.id}>
+                <Pagination className={s.pages} count={totalPage}
+                            onChange={(event: React.ChangeEvent<unknown>, page: number) => {
+                                pageChangeHandler(page)
+                            }} color="primary"/>
+                {props.users.map(m => <div className={s.users} key={m.id}>
                 <span>
-                    <div>
+                    <div className={s.user}>
                         <NavLink to={'/profile/' + m.id}>   <img
                             src={m.photos.small != null ? m.photos.small : defaultUsers}
                             className={s.avatarPhoto}
                             alt=""/></NavLink>
                      </div>
                     <div>{m.followed ?
-                        <button
+                        <Button className={s.btn} size={'small'} variant={'contained'}
 
                             disabled={props.followingInProgress.some(id => id === m.id)}
 
                             onClick={() => {
                                 props.unfollowSuccessThunkCreator(m.id)
-                            }}>unFollow</button> :
-                        <button
+                            }}>unFollow</Button> :
+                        <Button className={s.btn} size={'small'} variant={'contained'}
 
                             disabled={props.followingInProgress.some(id => id === m.id)}
 
                             onClick={() => {
                                 props.followSuccessThunkCreator(m.id)
 
-                            }}>Follow</button>}</div>
+                            }}>Follow</Button>}</div>
                 </span>
                     <span>
-                    <span>
-                        <div>{m.name}</div>
+                    <div className={s.user}>
+                        <div className={s.userName}>{m.name}</div>
                         <div>{m.status}</div>
-                    </span>
-                    <span>
-                        <div>"m.location.city"</div>
-                        <div>"m.location.country"</div>
-                    </span>
+                    </div>
+                    <div className={s.user}>
+                        <div>City: {m.location}</div>
+                        <div>Country: </div>
+                    </div>
                 </span>
                 </div>)}
             </div>

@@ -45,7 +45,7 @@ type setTotalUserCount = {
     type: 'SET-TOTAL-USER-COUNT'
     totalUsersCount: number
 }
-type isFetchingType = {
+export type isFetchingType = {
     type: 'TOGGLE-IS-FETCHING'
     isFetching: boolean
 }
